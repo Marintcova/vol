@@ -1,0 +1,17 @@
+//@version=5
+indicator("Volume Signals", overlay=true)
+
+// Параметры индикатора
+var float peakThreshold = input(1.5, title="Peak Threshold")
+
+// Расчет индикатора
+var float maxVolume = ta.highest(volume, 20)
+var bool volumePeak = volume >= maxVolume * peakThreshold
+
+// Отправка сигналов и отображение на графике
+if (volumePeak)
+    label.new(x=bar_index, y=high, text="P", color=color.blue, style=label.style_label_up, textcolor=color.white)
+    alert("Volume Peak Signal Triggered", alert.freq_once_per_bar_close)
+
+// Отображение максимального объема на графике
+plot(maxVolume, color=color.red, title="Max Volume")
